@@ -13,6 +13,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 class MemberServiceTest {
 
     @Autowired
@@ -22,16 +23,15 @@ class MemberServiceTest {
     MemberRepository memberRepository;
 
     @Test
-    @Transactional
     public void 회원가입() {
         //given
-        Member member1 = new Member("kim");
+        Member member = new Member("kim");
 
         //when
-        Long saveId = memberService.join(member1);
+        memberService.join(member);
 
         //then
-        assertThat(member1).isEqualTo(memberRepository.findById(saveId).get());
+        assertThat(member).isEqualTo(memberRepository.findById(member.getId()).get());
      }
 
      @Test
@@ -45,5 +45,5 @@ class MemberServiceTest {
 
          //then
          assertThrows(IllegalStateException.class, () -> memberService.join(member2));
-      }
+     }
 }

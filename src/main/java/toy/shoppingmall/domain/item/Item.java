@@ -2,6 +2,7 @@ package toy.shoppingmall.domain.item;
 
 import lombok.Getter;
 import toy.shoppingmall.domain.Category;
+import toy.shoppingmall.exception.NotEnoughStockException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -26,4 +27,27 @@ public class Item {
 
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<>();
+
+    //==비즈니스 메서드==//
+
+    /**
+     * 재고 증가
+     */
+    public void addStock(int quantity) {
+        stockQuantity += quantity;
+    }
+
+    /**
+     * 재고 감소
+     */
+    public void removeStock(int quantity) {
+
+        int restStock = stockQuantity - quantity;
+
+        if (restStock < 0) {
+            throw new NotEnoughStockException("need more stock");
+        }
+
+        stockQuantity = restStock;
+    }
 }
