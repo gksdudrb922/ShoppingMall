@@ -1,6 +1,8 @@
 package toy.shoppingmall.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import toy.shoppingmall.domain.item.Item;
 
 import javax.persistence.*;
@@ -9,6 +11,7 @@ import static javax.persistence.FetchType.*;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {
 
     @Id
@@ -28,8 +31,28 @@ public class OrderItem {
 
     private int count;
 
-    //==연관관계 메서드==//
-    public void setOrder(Order order) {
-        this.order = order;
+    //==생성 메서드==//
+    public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
+        OrderItem orderItem = new OrderItem(item, orderPrice, count);
+        item.removeStock(count);
+        return orderItem;
+    }
+
+    private OrderItem(Item item, int orderPrice, int count) {
+        this.item = item;
+        this.orderPrice = orderPrice;
+        this.count = count;
+    }
+
+    //==비즈니스 메서드==//
+    /**
+     * 주문상품 취소
+     */
+    public void cancel() {
+        item.addStock(count);
+    }
+
+    public int getTotalPrice() {
+        return orderPrice * count;
     }
 }

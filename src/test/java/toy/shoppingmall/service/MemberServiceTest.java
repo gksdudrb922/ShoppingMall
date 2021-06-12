@@ -3,8 +3,8 @@ package toy.shoppingmall.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
+import toy.shoppingmall.domain.Address;
 import toy.shoppingmall.domain.Member;
 import toy.shoppingmall.repository.MemberRepository;
 
@@ -25,7 +25,7 @@ class MemberServiceTest {
     @Test
     public void 회원가입() {
         //given
-        Member member = new Member("kim");
+        Member member = new Member("kim", new Address("서울", "도산대로", "12345"));
 
         //when
         memberService.join(member);
@@ -37,8 +37,8 @@ class MemberServiceTest {
      @Test
      public void 중복_회원_예외() {
          //given
-         Member member1 = new Member("kim");
-         Member member2 = new Member("kim");
+         Member member1 = new Member("kim", new Address("서울", "도산대로", "12345"));
+         Member member2 = new Member("kim", new Address("서울", "도산대로", "12345"));
 
          //when
          memberService.join(member1);

@@ -1,6 +1,8 @@
 package toy.shoppingmall.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -8,6 +10,7 @@ import static javax.persistence.FetchType.*;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Delivery {
 
     @Id
@@ -23,8 +26,8 @@ public class Delivery {
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 
-    //== 연관관계 메서드==//
-    public void setOrder(Order order) {
-        this.order = order;
+    public Delivery(Address address, DeliveryStatus status) {
+        this.address = address;
+        this.status = status;
     }
 }

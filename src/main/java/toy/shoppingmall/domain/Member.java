@@ -22,7 +22,8 @@ public class Member {
     @Embedded
     private Address address;
 
-    public Member(String name) {
+    public Member(String name, Address address) {
         this.name = name;
+        this.address = address;
     }
 }

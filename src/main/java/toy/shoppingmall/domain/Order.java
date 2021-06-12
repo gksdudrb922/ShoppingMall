@@ -1,6 +1,8 @@
 package toy.shoppingmall.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -14,6 +16,7 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Getter @Setter
 @Table(name = "orders")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
     @Id
@@ -37,18 +40,36 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    //==연관관계 메서드==//
-    public void setMember(Member member) {
+    private int totalPrice;
+
+    //==생성 메서드==//
+    public static Order createOrder(Member member, Delivery delivery, List<OrderItem> orderItems, int totalPrice) {
+        Order order = new Order(member, delivery, LocalDateTime.now(), OrderStatus.ORDER, totalPrice);
+        for (OrderItem orderItem : orderItems) {
+            order.getOrderItems().add(orderItem);
+        }
+        return order;
+    }
+
+    private Order(Member member, Delivery delivery, LocalDateTime orderDate, OrderStatus status, int totalPrice) {
         this.member = member;
-    }
-
-    public void addOrderItem(OrderItem orderItem) {
-        orderItems.add(orderItem);
-        orderItem.setOrder(this);
-    }
-
-    public void setDelivery(Delivery delivery) {
         this.delivery = delivery;
-        delivery.setOrder(this);
+        this.orderDate = orderDate;
+        this.status = status;
+        this.totalPrice = totalPrice;
+    }
+
+    //==비즈니스 메서드==//
+    /**
+     * 주문 취소
+     */
+    public void cancel() {
+        if (delivery.getStatus() == DeliveryStatus.COMP) {
+            throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.");
+        }
+        for (OrderItem orderItem : orderItems) {
+            orderItem.cancel();
+        }
+        status = OrderStatus.CANCEL;
     }
 }

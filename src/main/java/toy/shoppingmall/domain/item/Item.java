@@ -1,6 +1,8 @@
 package toy.shoppingmall.domain.item;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import toy.shoppingmall.domain.Category;
 import toy.shoppingmall.exception.NotEnoughStockException;
 
@@ -12,7 +14,8 @@ import java.util.List;
 @Getter
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")
-public class Item {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public abstract class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,8 +31,14 @@ public class Item {
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<>();
 
-    //==비즈니스 메서드==//
+    public Item(String name, int price, int stockQuantity) {
+        this.name = name;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+    }
 
+
+    //==비즈니스 메서드==//
     /**
      * 재고 증가
      */

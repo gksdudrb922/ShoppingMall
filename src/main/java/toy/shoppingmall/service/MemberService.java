@@ -19,10 +19,11 @@ public class MemberService {
      * 회원 가입
      */
     @Transactional
-    public void join(Member member) {
+    public Long join(Member member) {
 
         validateDuplicateMember(member);
         memberRepository.save(member);
+        return member.getId();
     }
 
     private void validateDuplicateMember(Member member) {
