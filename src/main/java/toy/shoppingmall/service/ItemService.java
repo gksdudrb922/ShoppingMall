@@ -24,4 +24,14 @@ public class ItemService {
     public List<Item> findItems() {
         return itemRepository.findAll();
     }
+
+    public Item findOne(Long itemId) {
+        return itemRepository.findById(itemId).orElseGet(null);
+    }
+
+    public void updateItem(Long id, String name, int price) {
+        Item item = itemRepository.findById(id).orElseGet(null);
+        item.setName(name);
+        item.setPrice(price);
+    }
 }
