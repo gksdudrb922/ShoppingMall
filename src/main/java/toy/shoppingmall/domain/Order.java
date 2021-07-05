@@ -47,6 +47,7 @@ public class Order {
         Order order = new Order(member, delivery, LocalDateTime.now(), OrderStatus.ORDER, totalPrice);
         for (OrderItem orderItem : orderItems) {
             order.getOrderItems().add(orderItem);
+            orderItem.setOrder(order);
         }
         return order;
     }

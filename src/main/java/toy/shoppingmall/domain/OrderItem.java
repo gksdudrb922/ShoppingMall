@@ -31,6 +31,10 @@ public class OrderItem {
 
     private int count;
 
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
     //==생성 메서드==//
     public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
         OrderItem orderItem = new OrderItem(item, orderPrice, count);

@@ -60,7 +60,7 @@ public class OrderService {
     /**
      * 주문 조회
      */
-    List<Order> findOrders(OrderSearch orderSearch) {
+    public List<Order> findOrders(OrderSearch orderSearch) {
         return orderRepository.findAll(orderSearch);
     }
 
