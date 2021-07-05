@@ -3,6 +3,7 @@ package toy.shoppingmall.domain.item;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import toy.shoppingmall.controller.ItemForm;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -19,5 +20,13 @@ public class Movie extends Item {
         super(name, price, stockQuantity);
         this.director = director;
         this.actor = actor;
+    }
+
+    public void updateItem(ItemForm form) {
+        name = form.getName();
+        price = form.getPrice();
+        stockQuantity = form.getStockQuantity();
+        director = form.getDirector();
+        actor = form.getActor();
     }
 }

@@ -3,7 +3,11 @@ package toy.shoppingmall.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import toy.shoppingmall.controller.ItemForm;
+import toy.shoppingmall.domain.item.Album;
+import toy.shoppingmall.domain.item.Book;
 import toy.shoppingmall.domain.item.Item;
+import toy.shoppingmall.domain.item.Movie;
 import toy.shoppingmall.repository.ItemRepository;
 
 import java.util.List;
@@ -29,9 +33,17 @@ public class ItemService {
         return itemRepository.findById(itemId).orElseGet(null);
     }
 
-    public void updateItem(Long id, String name, int price) {
-        Item item = itemRepository.findById(id).orElseGet(null);
-        item.setName(name);
-        item.setPrice(price);
+    @Transactional
+    public void updateItem(ItemForm form) {
+        if (form.getTag().equals("A")) {
+            Album item = (Album) itemRepository.findById(form.getId()).orElseGet(null);
+            item.updateItem(form);
+        } else if (form.getTag().equals("B")) {
+            Book item = (Book) itemRepository.findById(form.getId()).orElseGet(null);
+            item.updateItem(form);
+        } else if (form.getTag().equals("M")) {
+            Movie item = (Movie) itemRepository.findById(form.getId()).orElseGet(null);
+            item.updateItem(form);
+        }
     }
 }

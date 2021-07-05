@@ -9,29 +9,54 @@
         <input type="hidden" th:field="*{id}" />
         <div class="form-group">
             <label th:for="name">상품명</label>
-            <input type="text" th:field="*{name}" class="form-control"
-                   placeholder="이름을 입력하세요" />
+            <input type="text" th:field="*{name}" class="form-control" placeholder="이름을 입력하세요" />
         </div>
         <div class="form-group">
             <label th:for="price">가격</label>
-            <input type="number" th:field="*{price}" class="form-control"
-                   placeholder="가격을 입력하세요" />
+            <input type="number" th:field="*{price}" class="form-control" placeholder="가격을 입력하세요" />
         </div>
         <div class="form-group">
             <label th:for="stockQuantity">수량</label>
-            <input type="number" th:field="*{stockQuantity}" class="form-
-control" placeholder="수량을 입력하세요" />
+            <input type="number" th:field="*{stockQuantity}" class="form-control" placeholder="수량을 입력하세요" />
         </div>
-        <div class="form-group">
-            <label th:for="author">저자</label>
-            <input type="text" th:field="*{author}" class="form-control"
-                   placeholder="저자를 입력하세요" />
+
+        <div th:if=" *{tag}=='A' ">
+            <input type="hidden" th:field="*{tag}" value="A"/>
+            <div class="form-group">
+                <label th:for="artist">아티스트</label>
+                <input type="text" th:field="*{artist}" class="form-control" placeholder="아티스트를 입력하세요" />
+            </div>
+            <div class="form-group">
+                <label th:for="etc">기타</label>
+                <input type="text" th:field="*{etc}" class="form-control" placeholder="기타 정보를 입력하세요" />
+            </div>
         </div>
-        <div class="form-group">
-            <label th:for="isbn">ISBN</label>
-            <input type="text" th:field="*{isbn}" class="form-control"
-                   placeholder="ISBN을 입력하세요" />
+
+        <div th:if=" *{tag}=='B' ">
+            <input type="hidden" th:field="*{tag}" value="B"/>
+            <div class="form-group">
+                <label th:for="author">저자</label>
+                <input type="text" th:field="*{author}" class="form-control" placeholder="저자를 입력하세요" />
+            </div>
+            <div class="form-group">
+                <label th:for="isbn">ISBN</label>
+                <input type="text" th:field="*{isbn}" class="form-control" placeholder="ISBN을 입력하세요" />
+            </div>
         </div>
+
+        <div th:if=" *{tag}=='M' ">
+            <input type="hidden" th:field="*{tag}" value="M"/>
+            <div class="form-group">
+                <label th:for="director">감독</label>
+                <input type="text" th:field="*{director}" class="form-control" placeholder="감독을 입력하세요" />
+            </div>
+            <div class="form-group">
+                <label th:for="actor">배우</label>
+                <input type="text" th:field="*{actor}" class="form-control" placeholder="배우를 입력하세요" />
+            </div>
+        </div>
+
+
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
     <div th:replace="fragments/footer :: footer" />

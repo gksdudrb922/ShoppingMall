@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import toy.shoppingmall.controller.ItemForm;
 import toy.shoppingmall.domain.Category;
 import toy.shoppingmall.exception.NotEnoughStockException;
 
@@ -23,11 +24,11 @@ public abstract class Item {
     @Column(name = "item_id")
     private Long id;
 
-    private String name;
+    protected String name;
 
-    private int price;
+    protected int price;
 
-    private int stockQuantity;
+    protected int stockQuantity;
 
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<>();

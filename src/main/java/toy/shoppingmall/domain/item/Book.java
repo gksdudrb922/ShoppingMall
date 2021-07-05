@@ -3,6 +3,7 @@ package toy.shoppingmall.domain.item;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import toy.shoppingmall.controller.ItemForm;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -19,5 +20,13 @@ public class Book extends Item {
         super(name, price, stockQuantity);
         this.author = author;
         this.isbn = isbn;
+    }
+
+    public void updateItem(ItemForm form) {
+        name = form.getName();
+        price = form.getPrice();
+        stockQuantity = form.getStockQuantity();
+        author=form.getAuthor();
+        isbn = form.getIsbn();
     }
 }
