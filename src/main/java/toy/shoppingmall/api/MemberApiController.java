@@ -3,12 +3,14 @@ package toy.shoppingmall.api;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import toy.shoppingmall.domain.Member;
 import toy.shoppingmall.service.MemberService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
