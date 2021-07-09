@@ -13,7 +13,8 @@ spring:
         format_sql: true
         query:
           in_clause_parameter_padding: true #in 쿼리 최적화
-#        use_sql_comments: true #querydsl -> jpql 확인
+        default_batch_fetch_size: 100
+    open-in-view: true
 
   data:
     web:

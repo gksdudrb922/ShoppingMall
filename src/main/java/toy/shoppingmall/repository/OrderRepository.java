@@ -13,5 +13,13 @@ public interface OrderRepository extends JpaRepository<Order, Long>, OrderReposi
 
     @EntityGraph(attributePaths = {"member", "delivery"})
     @Query("select o from Order o")
+    List<Order> findAllWithMemberDelivery();
+
+    @EntityGraph(attributePaths = {"member", "delivery"})
+    @Query("select o from Order o")
     Page<Order> findAllWithMemberDelivery(Pageable pageable);
+
+    @EntityGraph(attributePaths = {"member", "delivery", "orderItems", "orderItems.item"})
+    @Query("select o from Order o")
+    List<Order> findAllWithItem();
 }
