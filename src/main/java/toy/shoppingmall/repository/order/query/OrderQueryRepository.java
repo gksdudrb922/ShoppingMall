@@ -1,7 +1,12 @@
 package toy.shoppingmall.repository.order.query;
 
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
+import toy.shoppingmall.domain.Order;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -37,15 +42,18 @@ public class OrderQueryRepository {
         return result;
     }
 
-    public List<OrderQueryDto> findAllByDto_optimization() {
+    public Page<OrderQueryDto> findAllByDto_optimization(Pageable pageable) {
 
-        List<OrderQueryDto> result = findOrders();
+        List<OrderQueryDto> content = findOrders(pageable);
 
-        Map<Long, List<OrderItemQueryDto>> orderItemMap = findOrderItemMap(toOrderIds(result));
+        Map<Long, List<OrderItemQueryDto>> orderItemMap = findOrderItemMap(toOrderIds(content));
 
-        result.forEach(o -> o.setOrderItems(orderItemMap.get(o.getOrderId())));
+        content.forEach(o -> o.setOrderItems(orderItemMap.get(o.getOrderId())));
 
-        return result;
+        JPAQuery<Order> countQuery = queryFactory
+                .selectFrom(order);
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
     }
 
     private List<OrderQueryDto> findOrders() {
@@ -54,6 +62,17 @@ public class OrderQueryRepository {
                 .from(order)
                 .join(order.member, member)
                 .join(order.delivery, delivery)
+                .fetch();
+    }
+
+    private List<OrderQueryDto> findOrders(Pageable pageable) {
+        return queryFactory
+                .select(new QOrderQueryDto(order.id, member.name, order.orderDate, order.status, delivery.address))
+                .from(order)
+                .join(order.member, member)
+                .join(order.delivery, delivery)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
     }
 
